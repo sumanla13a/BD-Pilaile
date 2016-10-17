@@ -21,6 +21,7 @@ public class PairsAlgorithmImplementation {
 		FileInputFormat.addInputPath(job, new Path("pairsAlgorithmInput")); // Setting input file location. Change
 		FileOutputFormat.setOutputPath(job, new Path("pairsAlgorithmOutput")); // Setting output file location. Change
 		job.setNumReduceTasks(2);
+		job.setPartitionerClass(PairsPartitioner.class);
 		job.setMapperClass(MapperClass.class);
 		job.setReducerClass(ReducerClass.class);
 		job.setMapOutputKeyClass(Pair.class);

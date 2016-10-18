@@ -6,17 +6,16 @@ import java.util.HashMap;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper;
 
 
-public class MapperClass extends Mapper<LongWritable, Text, Text, MapWritable> {
-	private HashMap<String, MapWritable> recordHash;
+public class MapperClass extends Mapper<LongWritable, Text, Text, CustomMapWritable> {
+	private HashMap<String, CustomMapWritable> recordHash;
 	@Override
 	public void setup(Context context) throws IOException, InterruptedException {
-		recordHash = new HashMap<String, MapWritable>();
+		recordHash = new HashMap<String, CustomMapWritable>();
 	}
 	@Override
 	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
@@ -26,7 +25,7 @@ public class MapperClass extends Mapper<LongWritable, Text, Text, MapWritable> {
 		for(int i = 0; i<len; i++) {
 			if(i != 0) {
 				String[] neighbors = Arrays.copyOfRange(allKeys, i+1, len);
-				MapWritable neighborHash = new MapWritable();
+				CustomMapWritable neighborHash = new CustomMapWritable();
 				for(String entryNeighbor : neighbors) {
 					if(!entryNeighbor.equals(allKeys[i])) {
 						Text currentNeighbor = new Text(entryNeighbor);

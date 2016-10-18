@@ -20,14 +20,14 @@ public class StripesAlgorithmImplementation {
 			
 			FileInputFormat.addInputPath(job, new Path("pairsAlgorithmInput")); // Setting input file location. Change
 			FileOutputFormat.setOutputPath(job, new Path("stripesAlgorithmOutput")); // Setting output file location. Change
-//			job.setNumReduceTasks(2);
-//			job.setPartitionerClass(PairsPartitioner.class);
+			job.setNumReduceTasks(2);
+			job.setPartitionerClass(StripesPartitioner.class);
 			job.setMapperClass(MapperClass.class);
 			job.setReducerClass(ReducerClass.class);
 			job.setMapOutputKeyClass(Text.class);
-			job.setMapOutputValueClass(MapWritable.class);
+			job.setMapOutputValueClass(CustomMapWritable.class);
 			job.setOutputKeyClass(Text.class);
-			job.setOutputValueClass(MapWritable.class);
+			job.setOutputValueClass(CustomMapWritable.class);
 			System.exit(job.waitForCompletion(true) ? 0 : 1);
 		}
 

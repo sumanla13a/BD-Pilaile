@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import com.suman.BD.Pair.*;
 
-public class MapperClass extends Mapper<LongWritable, Text, Pair, IntWritable> {
+public class MapperClass extends Mapper<LongWritable, Text, Pair, DoubleWritable> {
 		private HashMap<Pair, Object> recordHash;
 		@Override
 		public void setup(Context context) throws IOException, InterruptedException {
@@ -45,7 +45,7 @@ public class MapperClass extends Mapper<LongWritable, Text, Pair, IntWritable> {
 		@Override
 		public void cleanup(Context context) throws IOException, InterruptedException {
 			for(Pair i : recordHash.keySet()) {
-				context.write(i, new IntWritable((int)recordHash.get(i)));
+				context.write(i, new DoubleWritable((int)recordHash.get(i)));
 			}
 			recordHash.clear();
 		}

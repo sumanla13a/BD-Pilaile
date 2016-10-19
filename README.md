@@ -116,6 +116,8 @@
 	- Run initialize.sh to copy your file into Cloudera
 	- Change permission of the shell script to 700 or as your wish. sudo chmod 655 *
 	- Then run any of the other shell to get the output in your desktop. A new folder is created for each methods.
+
+	- eg. ./Stripes.sh {location_of_jar}
 	
 
 # Detail documentation is present with the doc as javaDoc

@@ -9,13 +9,38 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-
+/*
+ * @author: Suman Lama
+ * @namespace MapperClass
+ * @memberOf com.suman.BD.StripesMethod
+ * @description: 
+ * Mapper class
+ * */
 public class MapperClass extends Mapper<LongWritable, Text, Text, CustomMapWritable> {
 	private HashMap<String, HashMap<String, DoubleWritable>> recordHash;
+	/*
+	 * @memberOf com.suman.BD.StripesMethod.MapperClass
+	 * @description: 
+	 * @method setup, initial setup of the mapper. Creates hashmap
+	 * @params {Context} context
+	 * */
 	@Override
 	public void setup(Context context) throws IOException, InterruptedException {
 		recordHash = new HashMap<String, HashMap<String, DoubleWritable>>();
 	}
+	/*
+	 * @memberOf com.suman.BD.StripesMethod.MapperClass
+	 * @method map, main mapper method. This is called recursively with each input lines from files
+	 * 
+	 * @params {LongWritable} key, the bytecode for the current line
+	 * @params {Text} value, the current line
+	 * @params {Context} context
+	 * @throws IOException, InterruptedException
+	 * 
+	 * @description: 
+	 * Counts occurence of each item after a certain item (say A) till the same item (A) re-occurs
+	 * Uses Stripes method i.e each relation is stored in an associative array
+	 * */
 	@Override
 	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 		String line = value.toString();
@@ -53,6 +78,13 @@ public class MapperClass extends Mapper<LongWritable, Text, Text, CustomMapWrita
 			}
 		}
 	}
+	/*
+	 * @memberOf com.suman.BD.StripesMethod.MapperClass 
+	 * @method cleanup, end process of the mapping
+	 * @params {Context} context
+	 * @description
+	 * Writes the output of mapper
+	 * */
 	@Override
 	public void cleanup(Context context) throws IOException, InterruptedException {
 		for(String entry : recordHash.keySet()) {

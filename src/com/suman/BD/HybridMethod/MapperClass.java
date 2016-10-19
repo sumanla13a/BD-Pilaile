@@ -10,13 +10,38 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import com.suman.BD.Pair.*;
-
+/*
+ * @author: Suman Lama
+ * @namespace MapperClass
+ * @memberOf com.suman.BD.HybridMethod
+ * @description: 
+ * Mapper class
+ * */
 public class MapperClass extends Mapper<LongWritable, Text, Pair, IntWritable> {
 		private HashMap<Pair, Object> recordHash;
+		/*
+		 * @memberOf com.suman.BD.HybridMethod.MapperClass
+		 * @description: 
+		 * @method setup, initial setup of the mapper. Creates hashmap
+		 * @params {Context} context
+		 * */
 		@Override
 		public void setup(Context context) throws IOException, InterruptedException {
 			recordHash = new HashMap<Pair, Object>();
 		}
+		/*
+		 * @memberOf com.suman.BD.HybridMethod.MapperClass
+		 * @method map, main mapper method. This is called recursively with each input lines from files
+		 * 
+		 * @params {LongWritable} key, the bytecode for the current line
+		 * @params {Text} value, the current line
+		 * @params {Context} context
+		 * @throws IOException, InterruptedException
+		 * 
+		 * @description: 
+		 * Counts occurence of each item after a certain item (say A) till the same item (A) re-occurs
+		 * Uses Pairs method i.e each relation is stored in a pair
+		 * */
 		@Override
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 			String line = value.toString();
@@ -42,6 +67,13 @@ public class MapperClass extends Mapper<LongWritable, Text, Pair, IntWritable> {
 				}
 			}
 		}
+		/*
+		 * @memberOf com.suman.BD.HybridMethod.MapperClass 
+		 * @method cleanup, end process of the mapping
+		 * @params {Context} context
+		 * @description
+		 * Writes the output of mapper
+		 * */
 		@Override
 		public void cleanup(Context context) throws IOException, InterruptedException {
 			for(Pair i : recordHash.keySet()) {

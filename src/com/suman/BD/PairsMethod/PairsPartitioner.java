@@ -4,7 +4,15 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.mapreduce.Partitioner;
 
 import com.suman.BD.Pair.Pair;
-
+/*
+ * @author: Suman Lama
+ * @namespace PairsPartitioner
+ * @memberOf com.suman.BD.PairsMethod
+ * @description: 
+ * Partitions the map output to two reducers according to item number
+ * 
+ * @Overrides default getPartition method of hashPartition
+ * */
 public class PairsPartitioner extends Partitioner<Pair, IntWritable> {
 
 	@Override

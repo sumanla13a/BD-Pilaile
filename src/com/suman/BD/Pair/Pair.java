@@ -6,7 +6,17 @@ import java.io.IOException;
 
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableComparable;
-
+/*
+ * @author: Suman Lama
+ * @namespace Pair
+ * @memberOf com.suman.BD.pair
+ * @description: 
+ * Pairs implementation with key and value
+ * @property {String} key, key of the pair
+ * @property {value} value, value of the pair
+ * 
+ * implements Writable and WritableComparable to make it writable at the end.
+ * */
 public class Pair implements Writable, WritableComparable<Pair> {
 	private String key;
 	private String value;
@@ -48,7 +58,6 @@ public class Pair implements Writable, WritableComparable<Pair> {
 	public Pair(String key, String value) {
 		this.key = key;
 		this.value = value;
-//		System.out.println(key + " " + value);
 	}
 	@Override
 	public String toString() {

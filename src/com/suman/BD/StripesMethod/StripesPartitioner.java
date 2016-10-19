@@ -1,5 +1,13 @@
 package com.suman.BD.StripesMethod;
-
+/*
+ * @author: Suman Lama
+ * @namespace StripesPartitioner
+ * @memberOf com.suman.BD.StripesMethod
+ * @description: 
+ * Partitions the map output to two reducers according to item number
+ * 
+ * @Overrides default getPartition method of hashPartition
+ * */
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.mapreduce.Partitioner;
 import org.apache.hadoop.io.Text;

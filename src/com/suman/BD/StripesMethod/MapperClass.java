@@ -4,18 +4,17 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper;
 
 
 public class MapperClass extends Mapper<LongWritable, Text, Text, CustomMapWritable> {
-	private HashMap<String, CustomMapWritable> recordHash;
+	private HashMap<String, HashMap<String, DoubleWritable>> recordHash;
 	@Override
 	public void setup(Context context) throws IOException, InterruptedException {
-		recordHash = new HashMap<String, CustomMapWritable>();
+		recordHash = new HashMap<String, HashMap<String, DoubleWritable>>();
 	}
 	@Override
 	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
@@ -25,14 +24,15 @@ public class MapperClass extends Mapper<LongWritable, Text, Text, CustomMapWrita
 		for(int i = 0; i<len; i++) {
 			if(i != 0) {
 				String[] neighbors = Arrays.copyOfRange(allKeys, i+1, len);
-				CustomMapWritable neighborHash = new CustomMapWritable();
+				HashMap<String, DoubleWritable> neighborHash = new HashMap<String, DoubleWritable>();
 				for(String entryNeighbor : neighbors) {
 					if(!entryNeighbor.equals(allKeys[i])) {
-						Text currentNeighbor = new Text(entryNeighbor);
-						if(!neighborHash.containsKey(entryNeighbor)) neighborHash.put(currentNeighbor, new IntWritable(1));
+						if(!neighborHash.containsKey(entryNeighbor)) {
+							neighborHash.put(entryNeighbor, new DoubleWritable(1));
+						}
 						else {
-							IntWritable currentValue = (IntWritable)neighborHash.get(currentNeighbor);
-							neighborHash.put(currentNeighbor, new IntWritable(currentValue.get() + 1));
+							DoubleWritable currentValue = (DoubleWritable)neighborHash.get(entryNeighbor);
+							neighborHash.put(entryNeighbor, new DoubleWritable(currentValue.get() + 1));
 						}
 					} else {
 						break;
@@ -40,11 +40,11 @@ public class MapperClass extends Mapper<LongWritable, Text, Text, CustomMapWrita
 				}
 				if(!recordHash.containsKey(allKeys[i]))	recordHash.put(allKeys[i], neighborHash);
 				else {
-					for(Writable entryKey : neighborHash.keySet()) {
+					for(String entryKey : neighborHash.keySet()) {
 						if(recordHash.get(allKeys[i]).containsKey(entryKey)) {
-							IntWritable hashEntryValue = (IntWritable)recordHash.get(allKeys[i]).get(entryKey);
-							IntWritable neighborEntryValue = (IntWritable)neighborHash.get(entryKey);
-							recordHash.get(allKeys[i]).put(entryKey, new IntWritable(hashEntryValue.get() + neighborEntryValue.get()));
+							DoubleWritable hashEntryValue = (DoubleWritable)recordHash.get(allKeys[i]).get(entryKey);
+							DoubleWritable neighborEntryValue = (DoubleWritable)neighborHash.get(entryKey);
+							recordHash.get(allKeys[i]).put(entryKey, new DoubleWritable(hashEntryValue.get() + neighborEntryValue.get()));
 						} else {
 							recordHash.get(allKeys[i]).put(entryKey, neighborHash.get(entryKey));
 						}
@@ -56,11 +56,11 @@ public class MapperClass extends Mapper<LongWritable, Text, Text, CustomMapWrita
 	@Override
 	public void cleanup(Context context) throws IOException, InterruptedException {
 		for(String entry : recordHash.keySet()) {
-			for(Writable keys : recordHash.get(entry).keySet()) {
-				System.out.println("here " + entry);
-				System.out.println(keys + " " + recordHash.get(entry).get(keys));
+			CustomMapWritable mapWritable = new CustomMapWritable();
+			for(String eachEntry : recordHash.get(entry).keySet()) {
+				mapWritable.put(new Text(eachEntry), recordHash.get(entry).get(eachEntry));
 			}
-			context.write(new Text(entry), recordHash.get(entry));
+			context.write(new Text(entry), mapWritable);
 		}
 		recordHash.clear();
 	}

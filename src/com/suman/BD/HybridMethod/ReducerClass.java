@@ -40,7 +40,7 @@ public class ReducerClass extends Reducer<Pair, IntWritable, Text, CustomMapWrit
 			marginal += value.get();
 			if(!recordHash.containsKey(currVal)) {
 				System.out.println("h");
-				recordHash.put(currVal, value);
+				recordHash.put(currVal, new IntWritable(value.get()));
 			} else {
 				System.out.println("b");
 				IntWritable currentVal = (IntWritable)recordHash.get(pair.getValue());

@@ -21,8 +21,8 @@ public class HybridAlgorithmImplementation {
 		
 		FileInputFormat.addInputPath(job, new Path("pairsAlgorithmInput")); // Setting input file location. Change
 		FileOutputFormat.setOutputPath(job, new Path("hybridAlgorithmOutput")); // Setting output file location. Change
-//		job.setNumReduceTasks(2);
-//		job.setPartitionerClass(PairsPartitioner.class);
+		job.setNumReduceTasks(2);
+		job.setPartitionerClass(PairsPartitioner.class);
 		job.setMapperClass(MapperClass.class);
 		job.setReducerClass(ReducerClass.class);
 		job.setMapOutputKeyClass(Pair.class);

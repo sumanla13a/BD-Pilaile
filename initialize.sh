@@ -1,0 +1,1 @@
+hadoop -fs put ~/Desktop/input.txt /user/cloudera/pairsAlgorithmInput/

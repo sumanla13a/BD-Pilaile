@@ -10,7 +10,7 @@ import com.suman.BD.Pair.Pair;
  * @memberOf com.suman.BD.PairsMethod
  * @description: 
  * Partitions the map output to two reducers according to item number
- * 
+ * Partitions according to number of reducers used
  * @Overrides default getPartition method of hashPartition
  * */
 public class PairsPartitioner extends Partitioner<Pair, IntWritable> {
@@ -18,8 +18,9 @@ public class PairsPartitioner extends Partitioner<Pair, IntWritable> {
 	@Override
 	public int getPartition(Pair arg0, IntWritable arg1, int arg2) {
 		if(arg2==0) return 0;
-		if(Integer.parseInt(arg0.getKey())>50) return 1 % arg2;
-		else return 0;
+		return (arg0.getKey().charAt(0) & Integer.MAX_VALUE)%arg2;
+		/*if(Integer.parseInt(arg0.getKey())>50) return 1 % arg2;
+		else return 0;*/
 	}
 
 }

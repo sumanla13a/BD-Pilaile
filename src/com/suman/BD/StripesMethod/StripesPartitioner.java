@@ -16,8 +16,9 @@ public class StripesPartitioner extends Partitioner<Text, MapWritable> {
 		@Override
 		public int getPartition(Text arg0, MapWritable arg1, int arg2) {
 			if(arg2==0) return 0;
-			if(Integer.parseInt(arg0.toString())>50) return 1 % arg2;
-			else return 0;
+			return (arg0.charAt(0) & Integer.MAX_VALUE)%arg2;
+			/*if(Integer.parseInt(arg0.toString())>50) return 1 % arg2;
+			else return 0;*/
 		}
 
 }

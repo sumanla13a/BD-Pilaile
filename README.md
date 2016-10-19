@@ -107,7 +107,10 @@
 
 # How to Run
 
-# Local Mode -> Load it on IDE of your choice. Launch from specific package
+# Local Mode -> 
+	-	Load it on IDE of your choice.
+	-	Import all the library jars from Hadoop, lib and client-2.0
+	-	Launch from specific package
 # Pseudo Distributive mode
 	- There are four shell scripts in this, initialize.sh, Hybrid.sh, Pairs.sh and Stripes.sh
 	- Run initialize.sh to copy your file into Cloudera

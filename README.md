@@ -1,4 +1,4 @@
-# BD-Pilaile
+# Some Magic Ball
 	- Basic implementation of frequency occurence with PAIRS, STRIPES and HYBRID Approach.
 
 # Installation of Hadoop with cloudera
